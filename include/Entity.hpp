@@ -18,6 +18,7 @@ public:
 		return pos;
 	}
 
+	// getters
 	float getWidth()
 	{return currentFrame.w;}
 
@@ -27,6 +28,12 @@ public:
 	float getAngle()
 	{return angle;}
 
+	Vector2f getCenter()
+	{
+		return Vector2f(pos.x + currentFrame.w/2, pos.y + currentFrame.h/2);
+	}
+
+	// setters
 	void setAngle(float p_angle)
 	{angle = p_angle;}
 

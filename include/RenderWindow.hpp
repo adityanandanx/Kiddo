@@ -5,7 +5,7 @@
 #include "Entity.hpp"
 // #include "Math.hpp"
 
-const int SCALE = 2;
+const float SCALE = 1.5f;
 
 class RenderWindow
 {
@@ -20,8 +20,9 @@ public:
 	void display();
 
 	// Get(ters)
-	int getWidth(){return w/SCALE;}
-	int getHeight(){return h/SCALE;}
+	int getWidth(){return w;}
+	int getHeight(){return h;}
+	SDL_Renderer* getRenderer() {return renderer;}
 
 private:
 	SDL_Window* window;

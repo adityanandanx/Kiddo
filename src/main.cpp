@@ -1,6 +1,7 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 #include <iostream>
+#include <stdlib.h>
 #include <vector>
 
 #include "RenderWindow.hpp"
@@ -32,20 +33,29 @@ int main (int argc, char* args[])
 
 	Entity back(Vector2f(0, 0), window.loadTexture("res/gfx/back.png"));
 
-	Entity player(Vector2f(0, 0), window.loadTexture("res/gfx/KIDDO.png"));
-	player.pos = Vector2f(
-			window.getWidth()/2 - player.getWidth()/2, 
-			window.getHeight()/2- player.getHeight()/2);
-	float player_angular_speed = 0.0f;
-	float drag = 0.005f;
-
 	Entity cursor(Vector2f(), window.loadTexture("res/gfx/cursor.png"));
+
+	// <OPEN> ---------- PLAYER PROPERTIES ----------
+	Entity player(Vector2f(0, 0), window.loadTexture("res/gfx/KIDDO.png"));
+	// actual
+	player.pos = Vector2f(
+			window.getWidth()/2/SCALE - player.getWidth()/2, 
+			window.getHeight()/2/SCALE - player.getHeight()/2);
+	float player_angular_speed = 0.0f;
+	float drag = 0.001f;
+	// apparent
+	Vector2f p_apparent_pos = player.pos;
+	Vector2f p_apparent_vel(0.0f, -1.0f);
+	// <CLOSE> ---------- PLAYER PROPERTIES ----------
 
 	// Flappies
 	std::vector<Entity> flappies;
-	for (int i = 1; i <= 5; i++)
+	for (int i = 1; i <= 50; i++)
 	{
-		Entity temp_e(Vector2f(-32, -32), window.loadTexture("res/gfx/FlappyBird.png"));
+		Vector2f range(-int(window.getWidth()/SCALE) + 3*(rand() % int(window.getWidth()/SCALE)), -(rand() % int(window.getHeight()/SCALE)));
+
+		Entity temp_e(range, window.loadTexture("res/gfx/FlappyBird.png"));
+		
 		flappies.push_back(temp_e);
 	}
 
@@ -79,26 +89,27 @@ int main (int argc, char* args[])
 					// LEFT
 					case SDLK_LEFT:
 						// Movement
-						if (player.pos.x > 0)
-						{
-							player.pos.x-=5;
-							// Rotation
-							if (player.getAngle() > -90)
-								player_angular_speed -= 0.2;
-						}
+						p_apparent_vel.x = -5;
+						// Rotation
+						if (player.getAngle() > -90)
+							player_angular_speed -= 0.2;
 						break;
 					// RIGHT
 					case SDLK_RIGHT: 
 						// Movement
-						if (player.pos.x < window.getWidth()-player.getWidth())
-						{
-							player.pos.x+=5;
-							// Rotation
-							if (player.getAngle() < 90)
-								player_angular_speed += 0.2;
-						}
+						p_apparent_vel.x = 5;
+						// Rotation
+						if (player.getAngle() < 90)
+							player_angular_speed += 0.2;
 						break;
 				}
+			}
+
+			// KEY UP
+			if (event.type == SDL_KEYUP)
+			{
+				if (event.key.keysym.sym == SDLK_LEFT || event.key.keysym.sym == SDLK_RIGHT)
+					p_apparent_vel.x = 0;
 			}
 		}
 
@@ -106,6 +117,15 @@ int main (int argc, char* args[])
 		// setting the position of the cursor
 		cursor.pos.x = (float)mousePos.x/SCALE - cursor.getWidth()/2;
 		cursor.pos.y = (float)mousePos.y/SCALE - cursor.getHeight()/2;
+
+		// moving the player (well, apparently)
+		p_apparent_pos.add_to(p_apparent_vel);
+
+		// warping the player (apparently)
+		if (p_apparent_pos.x < -window.getWidth()/SCALE)
+			p_apparent_pos.x = 2*window.getWidth()/SCALE;
+		if (p_apparent_pos.x > 2*window.getWidth()/SCALE)
+			p_apparent_pos.x = -window.getWidth()/SCALE;
 
 		// rotating the player
 		if (player.getAngle() > 360-90 && player.getAngle() < 360)
@@ -135,7 +155,20 @@ int main (int argc, char* args[])
 		// Mid
 		for (Entity& bird : flappies)
 		{
+			bird.pos.subtract_from(p_apparent_vel);
+			if (bird.pos.y > window.getHeight()/SCALE)
+			{
 
+				Vector2f range(-int(window.getWidth()/SCALE) + 3*(rand() % int(window.getWidth()/SCALE)), -(rand() % int(window.getHeight()/SCALE)));
+				bird.pos.x = range.x;
+				bird.pos.y = range.y;
+			}
+			bird.pos.y += -1.0f + rand() % 5;
+			// warping the bird
+			if (bird.pos.x < -window.getWidth()/SCALE)
+				bird.pos.x = 2*window.getWidth()/SCALE;
+			if (bird.pos.x > 2*window.getWidth()/SCALE)
+				bird.pos.x = -window.getWidth()/SCALE;
 			window.render(bird);
 		}
 		window.render(player);
@@ -144,6 +177,9 @@ int main (int argc, char* args[])
 		window.render(cursor);
 
 		window.display();
+
+		// DEBUG MSGS
+		p_apparent_pos.print();
 
 	}
 

@@ -18,6 +18,17 @@ struct Vector2f
 		std::cout << x << ", " << y << std::endl;
 	}
 
+	void add_to(Vector2f p_vec)
+	{
+		x += p_vec.x;
+		y += p_vec.y;
+	}
+	void subtract_from(Vector2f p_vec)
+	{
+		x -= p_vec.x;
+		y -= p_vec.y;
+	}
+
 	float x, y;
 };
 
@@ -34,6 +45,15 @@ struct Vector2i
 	void print()
 	{
 		std::cout << x << ", " << y << std::endl;
+	}
+
+	Vector2i add_to(Vector2i p_vec)
+	{
+		return Vector2i(x + p_vec.x, y + p_vec.y);
+	}
+	Vector2i subtract_from(Vector2i p_vec)
+	{
+		return Vector2i(x - p_vec.x, y - p_vec.y);
 	}
 
 	int x, y;

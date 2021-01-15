@@ -123,6 +123,7 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"SCALE",
 			"player_entity",
 			"entities",
 			"startTime",
@@ -137,6 +138,8 @@
 		"regex": false,
 		"replace_history":
 		[
+			"window.scale",
+			"scale",
 			"player",
 			"tiles",
 			"currentTime",
@@ -183,7 +186,7 @@
 	"menu_visible": true,
 	"output.exec":
 	{
-		"height": 294.0
+		"height": 217.0
 	},
 	"output.find_results":
 	{

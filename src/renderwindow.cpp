@@ -60,8 +60,8 @@ void RenderWindow::clear()
 void RenderWindow::render(Entity& p_entity)
 {
 	SDL_Rect src;
-	src.x = p_entity.getCurrentFrame().x;
-	src.y = p_entity.getCurrentFrame().y;
+	src.x = 0;
+	src.y = 0;
 	src.w = p_entity.getCurrentFrame().w;
 	src.h = p_entity.getCurrentFrame().h;
 
@@ -83,7 +83,8 @@ void RenderWindow::render(Entity& p_entity)
 		} 
 		else
 		{
-			SDL_Point center = {p_entity.getRotCenter().x * SCALE, p_entity.getRotCenter().y * SCALE};
+			SDL_Point center = {(int)(p_entity.getRotCenter().x * SCALE), 
+								(int)(p_entity.getRotCenter().y * SCALE)};
 	    	SDL_RenderCopyEx(
 	    		renderer, 
 	    		p_entity.getTexture(), 
