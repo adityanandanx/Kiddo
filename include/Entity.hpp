@@ -45,7 +45,7 @@ public:
 
 	void rotateC(float p_deg, Vector2f point);
 
-private:
+protected:
 	SDL_Rect currentFrame;
 	SDL_Texture* tex;
 	float angle = 0.0f;

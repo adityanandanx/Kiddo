@@ -93,6 +93,8 @@
 	},
 	"file_history":
 	[
+		"/home/boss/Projects/CppSDL/Kiddo/include/Bird.hpp",
+		"/home/boss/Projects/CppSDL/Kiddo/src/bird.cpp",
 		"/home/boss/Projects/CppSDL/Kiddo/src/math.cpp",
 		"/home/boss/Projects/CppSDL/Kiddo/include/Kiddo.hpp",
 		"/home/boss/Projects/CppSDL/Kiddo/src/kiddo.cpp",
@@ -123,6 +125,9 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"p_tex",
+			"drag",
+			"))\n",
 			"SCALE",
 			"player_entity",
 			"entities",
@@ -159,7 +164,7 @@
 	},
 	"input":
 	{
-		"height": 0.0
+		"height": 42.0
 	},
 	"layout":
 	{
