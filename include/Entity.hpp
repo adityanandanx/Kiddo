@@ -45,6 +45,8 @@ public:
 
 	void rotateC(float p_deg, Vector2f point);
 
+	SDL_RendererFlip mirrored = SDL_FLIP_NONE;
+
 protected:
 	SDL_Rect currentFrame;
 	SDL_Texture* tex;

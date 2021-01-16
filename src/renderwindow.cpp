@@ -77,7 +77,7 @@ void RenderWindow::render(Entity& p_entity)
 		p_entity.pos.x < w + p_entity.getWidth() && 
 		p_entity.pos.y < h + p_entity.getHeight())
 	{
-		if (p_entity.getAngle() == 0)
+		if (p_entity.getAngle() == 0 && p_entity.mirrored == SDL_FLIP_NONE)
 		{
 			SDL_RenderCopy(renderer, p_entity.getTexture(), &src, &dst);
 		} 
@@ -92,7 +92,7 @@ void RenderWindow::render(Entity& p_entity)
 	    		&dst, 
 	    		p_entity.getAngle(), 
 	    		&center, 
-	    		SDL_FLIP_NONE);
+	    		p_entity.mirrored);
 		}
 	}
 	

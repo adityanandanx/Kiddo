@@ -30,4 +30,10 @@ void Bird::fly(RenderWindow window, Vector2f player_vel)
 	if (pos.x > 2*window.getWidth()/SCALE)
 		pos.x = -window.getWidth()/SCALE;
 
+	// flipping the bird
+	if (vel.x < 0)
+		mirrored = SDL_FLIP_HORIZONTAL;
+	if (vel.x > 0)
+		mirrored = SDL_FLIP_NONE;
+
 }
